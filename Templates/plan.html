@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "head.txt" %}
+<body>
+<!-- ======= Mobile nav toggle button ======= -->
+<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+<!-- ======= Header ======= -->
+<header id="header">
+    <div class="d-flex flex-column">
+        {% include "menu.txt" %}
+    </div>
+</header><!-- End Header -->
+
+<!--&lt;!&ndash; ======= Hero Section ======= &ndash;&gt;-->
+<!--<section id="hero" class="d-flex flex-column justify-content-center align-items-center">-->
+<!--    <div class="hero-container" data-aos="fade-in">-->
+<!--        <h1>Workout</h1>-->
+<!--        <p>Plany treningowe <span class="typed"-->
+<!--                                  data-typed-items=".. siła, .. sylwetka, .. zdrowie, .. aktywny styl życia"></span></p>-->
+<!--    </div>-->
+<!--</section>&lt;!&ndash; End Hero &ndash;&gt;-->
+
+<main id="main">
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
+        <div class="container">
+            {% include "plan.txt" %}
+        </div>
+    </section><!-- End Resume Section -->
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{% include "footer.txt" %}
+
+</body>
+</html>

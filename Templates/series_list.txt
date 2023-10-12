@@ -1,0 +1,21 @@
+<br>
+<table>
+<tr>
+<th><strong>ilość serii</strong></th>
+<th><strong>ilość powtórzeń</strong></th>
+<th><strong>obciążenie</strong></th>
+<th><strong>plan od dnia</strong></th>
+<th><strong>plan do dnia</strong></th>
+</tr>
+
+{% for item in serie %}
+    <tr>
+    <td>{{item[2]}}</td>
+    <td>{{item[3]}}</td>
+    <td>{{item[4]}}</td>
+    <td>{{item[8]}}</td>
+    <td>{{item[9]}}</td>
+    </tr>
+{% endfor %}
+
+</table>

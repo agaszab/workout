@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "head.txt" %}
+<body>
+<!-- ======= Mobile nav toggle button ======= -->
+<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+<!-- ======= Header ======= -->
+<header id="header">
+    <div class="d-flex flex-column">
+        {% include "menu.txt" %}
+    </div>
+</header><!-- End Header -->
+
+<main id="main">
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
+        <div class="container">
+            <div class="section-title">
+    <h2>Dodawanie nowej serii</h2>
+</div>
+
+<Form method="POST", name=series", action="/addse">
+              {{ form.csrf_token }}
+
+           {{form.exercise.label}}  {{form.exercise}} </br>
+           {{form.number_sets.label}}  {{form.number_sets}} </br>
+           {{form.number_repeats.label}}  {{form.number_repeats}} </br>
+           {{form.weight.label}}  {{form.weight}} </br>
+           {{form.superseries.label}}  {{form.superseries}} </br>
+           {{form.set.label}}  {{form.set}} </br>
+           {{form.submit()}}
+           </form>
+
+        </div>
+    </section><!-- End Resume Section -->
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{% include "footer.txt" %}
+
+</body>
+</html>

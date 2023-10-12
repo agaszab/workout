@@ -1,0 +1,29 @@
+ <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title"><h2>Wykaz ćwiczeń - {{part}} </h2></div>
+
+        <div class="row">
+
+             <div class="col-lg-10 pt-4 pt-lg-0 content" data-aos="fade-left">
+
+             {% if (wynik): %}
+                {% for item in wynik %}
+                <h3><a href="{{url_for('exercise', id=item[0][0])}}">{{item[0][1]}}</a></h3>
+                <ul>
+                        <li><i class="bi bi-chevron-right"></i> <strong>Opis</strong> {{item[0][2]}} </li>
+                        <li><i class="bi bi-chevron-right"></i> <strong>W planach występuje:</strong> {{item[1]}} razy </li>
+                        <li><i class="bi bi-chevron-right"></i> <strong>Ostatni raz w planie:</strong> {{item[2]}} </li>
+                    </ul>
+                    <hr>
+                {% endfor %}
+
+            {% endif %}
+
+          </div>
+        </div>
+           <img src="/static/assets/img/back_arrow.jpg" class="img-fluid" alt="" onclick="history.back()" style="align:right"> <a href="javascript:history.back()">Powrót do poprzedniej strony</a>
+
+      </div>
+    </section><!-- End About Section -->
