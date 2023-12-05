@@ -11,12 +11,18 @@
         {% include "menu.txt" %}
     </div>
 </header><!-- End Header -->
-
 <main id="main">
     <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
         <div class="container">
-            {% include "plan.txt" %}
+           <div class="section-title">  <h2>Logowanie</h2> </div>
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        {{ form.username }}
+                        {{ form.password }}
+                        {{ form.submit }}
+                    </form>
+
         </div>
     </section><!-- End Resume Section -->
 </main><!-- End #main -->
@@ -24,5 +30,8 @@
 <!-- ======= Footer ======= -->
 {% include "footer.txt" %}
 
+
+
 </body>
+
 </html>

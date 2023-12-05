@@ -3,13 +3,10 @@
 </div>
 
 <div class="row">
-Pokaż plan treningowy na dzień:
 
-         <Form method="POST" , name=form", action="/pokaz_plan">
+         <Form method="POST" , name=form", action="/plan_from">
               {{ form.csrf_token }}
-
            {{form.startdate.label}}  {{form.startdate (class= "datepicker")}} {{form.hidden_tag()}}
-           {{form.stopdate.label}}  {{form.stopdate (class= "datepicker")}} {{form.hidden_tag()}}
            {{form.submit()}}
            </form>
 
@@ -17,7 +14,7 @@ Pokaż plan treningowy na dzień:
            {% if (wynik): %}
            <table>
                 {% for item in wynik: %}
-                <tr><td><a href="{{url_for('plan2', day=1, data_from=item[0])}}" class="nav-link scrollto"">* {{item[0]}} - {{item[1]}}</a></td></tr>
+                <tr><td><a href="{{url_for('plan', day=1, data_from=item[0])}}" class="nav-link scrollto"">* {{item[0]}} - {{item[1]}}</a></td></tr>
                 {% endfor %}
             </table>
             {% endif %}

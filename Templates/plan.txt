@@ -1,42 +1,46 @@
+
             <div class="section-title">
                 <h2>Plan treningowy --->
-                <a href="{{url_for('plan2', day=1, data_from=wynik[0][0][0])}}" {% if (day==1): %} class="active" {% endif %} >Dzień 1</a> |
-                <a href="{{url_for('plan2', day=2, data_from=wynik[0][0][0])}}" {% if (day==2): %} class="active" {% endif %} >Dzień 2</a> |
-                <a href="{{url_for('plan2', day=3, data_from=wynik[0][0][0])}}" {% if (day==3): %} class="active" {% endif %} >Dzień 3</a> |
-                <a href="{{url_for('plan2', day=4, data_from=wynik[0][0][0])}}" {% if (day==4): %} class="active" {% endif %} >Dzień 4</a></h2>
+                <a href="{{url_for('plan', day=1, data_from=wynik[0][0][0])}}" {% if (day==1): %} class="active" {% endif %} >Dzień 1</a> |
+                <a href="{{url_for('plan', day=2, data_from=wynik[0][0][0])}}" {% if (day==2): %} class="active" {% endif %} >Dzień 2</a> |
+                <a href="{{url_for('plan', day=3, data_from=wynik[0][0][0])}}" {% if (day==3): %} class="active" {% endif %} >Dzień 3</a> |
+                <a href="{{url_for('plan', day=4, data_from=wynik[0][0][0])}}" {% if (day==4): %} class="active" {% endif %} >Dzień 4</a></h2>
                 <h5> ( {{wynik[0][0][0]}} - {{wynik[0][0][1]}} )</h5>
             </div>
 
             <div class="row">
                 <div class="col-lg-6" data-aos="fade-up">
-                    <h3 class="resume-title">{{wynik[0][0][5]}}</h3>
-                {% if (wynik[0]): %}
-                    {% for item in wynik[0] %}
-                        <div class="resume-item">
 
-                            <p><em><b>{{item[3]}}</b></em></p>
-                            <ul>
-                                <li>Opis: {{item[4]}}</li>
-                                <li>Ilość serii: {{item[6]}}</li>
-                                <li>Ilość powtórzeń w serii: {{item[7]}}</li>
-                                <li>Ciężar: {{item[8]}}</li>
-                                <li>Cwiczenie łączone: {{item[9]}} -> {{item[10]}}</li>
-                            </ul>
-                        </div>
-                     {% endfor %}
 
-                {% endif %}
+                    <h3 class="resume-title">{{body_part[0]}} </h3>
+                    {% if (wynik[0]): %}
+                        {% for item in wynik[0] %}
+                            <div class="resume-item">
 
+                                <a href="{{url_for('exercise', id=item[13])}}"><p><em><b>{{item[3]}}</b></em></p></a>
+
+                                <ul>
+                                    <li>Opis: {{item[4]}}</li>
+                                    <li>Ilość serii: {{item[6]}}</li>
+                                    <li>Ilość powtórzeń w serii: {{item[7]}}</li>
+                                    <li>Ciężar: {{item[8]}}</li>
+                                    <li>Cwiczenie łączone: {{item[9]}} -> {{item[10]}}</li>
+                                </ul>
+                            </div>
+                         {% endfor %}
+
+                    {% endif %}
+                
                 </div>
 
 
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                     {% if (pom==1): %}
-                     <h3 class="resume-title">{{wynik[1][0][5]}}</h3>
+                     <h3 class="resume-title">{{body_part[1]}}    {{body_part[2]}} </h3>
 
                     {% for item in wynik[1] %}
                         <div class="resume-item">
-                            <p><em><b>{{item[3]}}</b></em></p>
+                            <a href="{{url_for('exercise', id=item[13])}}"><p><em><b>{{item[3]}}</b></em></p></a>
                             <ul>
                                 <li>Opis: {{item[4]}}</li>
                                 <li>Ilość serii: {{item[6]}}</li>

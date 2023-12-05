@@ -16,7 +16,20 @@
     <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
         <div class="container">
-            {% include "plan.txt" %}
+            <div class="section-title">
+    <h2>Edycja ćwiczenia</h2>
+</div>
+
+
+           <Form method="POST", name=exercise", action="/editex">
+              {{ form.csrf_token }}
+            <Table style="border:0; padding:10px">
+           <tr><td>{{form.name.label}}</td><td>{{form.name}}</td></tr>
+           <tr><td>{{form.description.label}}</td><td>{{form.description}}</td></tr>
+           <tr><td>{{form.body_part.label}}</td><td>{{form.body_part}}</td></tr>
+            </Table>
+               <br>{{form.submit()}}
+           </form>
         </div>
     </section><!-- End Resume Section -->
 </main><!-- End #main -->

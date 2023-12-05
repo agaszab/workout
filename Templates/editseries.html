@@ -16,7 +16,22 @@
     <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
         <div class="container">
-            {% include "plan.txt" %}
+            <div class="section-title">
+    <h2>Dodawanie nowej serii</h2>
+</div>
+
+<Form method="POST", name=series", action="/editse">
+              {{ form.csrf_token }}
+
+           {{form.exercise.label}}  {{form.exercise}} </br>
+           {{form.number_sets.label}}  {{form.number_sets}} </br>
+           {{form.number_repeats.label}}  {{form.number_repeats}} </br>
+           {{form.weight.label}}  {{form.weight}} </br>
+           {{form.superseries.label}}  {{form.superseries}} </br>
+           {{form.set.label}}  {{form.set}} </br>
+           {{form.submit()}}
+           </form>
+
         </div>
     </section><!-- End Resume Section -->
 </main><!-- End #main -->

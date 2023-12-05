@@ -1,19 +1,10 @@
-  <!-- ======= About Section ======= -->
-    <section id="about" class="about">
-      <div class="container">
 
-        <div class="section-title">
-          <h2>Wykaz ćwiczeń</h2>
-          <p>Znajdziesz tu wszystkie ćwiczenia, które zostały uwzględnione w planach wraz z ich opisem</p>
-        </div>
+           <div class="section-title"><h2>Wykaz ćwiczeń</h2><p>Znajdziesz tu wszystkie ćwiczenia, które zostały uwzględnione w planach wraz z ich opisem</p></div>
 
-        <div class="row">
-          <div class="col-lg-4" data-aos="fade-right">
-            <img src="/static/assets/img/profile-img.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-5 pt-4 pt-lg-0 content" data-aos="fade-left">
+           <div class="row">
+          <div class="col-lg-4" data-aos="fade-right"><img src="/static/assets/img/profile-img.jpg" class="img-fluid" alt=""></div>
+          <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
             <h3>Wykaz ćwiczeń według partii mięśni</h3>
-            <p class="fst-italic">
             <div class="row">
               <div class="col-lg-6">
                 <ul>
@@ -32,24 +23,19 @@
                 </ul>
               </div>
             </div>
-            </br> </br>
-          </div>
 
+          </div>
+               </br> </br>
             <h3>Trochę statystyki</h3>
-            <p class="fst-italic">
+
             <div class="row">
               <div class="col-lg-6">
                 <ul>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Ćwiczenia najczęściej wykonywane w planach</strong> </li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Ćwiczenia wykonywanie w ostatnich trzech miesiącach</strong></li>
-                  <li><i class="bi bi-chevron-right"></i> <strong>Najrzadziej wykonywane ćwiczenia </strong> </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong><a href="{{url_for('statistic', opt=1)}}">Ćwiczenia najczęściej wykonywane w planach</a></strong> </li>
+                  <li><i class="bi bi-chevron-right"></i> <strong><a href="{{url_for('statistic', opt=2)}}">Ćwiczenia wykonywanie w ostatnich trzech miesiącach</a></strong></li>
+                  <li><i class="bi bi-chevron-right"></i> <strong><a href="{{url_for('statistic', opt=3)}}">Najrzadziej wykonywane ćwiczenia </a></strong> </li>
                   <li><i class="bi bi-chevron-right"></i> <strong>Inne opcje</strong></li>
                 </ul>
               </div>
             </div>
 
-        </div>
-
-
-      </div>
-    </section><!-- End About Section -->

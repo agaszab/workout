@@ -16,7 +16,13 @@
     <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
         <div class="container">
-            {% include "plan.txt" %}
+
+            {% if (part=="no") or (wynik==[]): %}
+            {% include "cwiczenia.txt" %}
+            {% else: %}
+            {% include "cwiczenia_partia.txt" %}
+            {% endif %}
+
         </div>
     </section><!-- End Resume Section -->
 </main><!-- End #main -->
@@ -24,5 +30,8 @@
 <!-- ======= Footer ======= -->
 {% include "footer.txt" %}
 
+
+
 </body>
+
 </html>
