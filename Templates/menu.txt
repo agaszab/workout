@@ -7,13 +7,15 @@
       <nav id="navbar" class="nav-menu navbar">
         <ul>
           <li><a href="{{url_for('index', part="all")}}#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-          <li><a href="{{url_for('plan', day=1, data_from=0)}}" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Aktualny plan</span></a></li>
-          <li><a href="{{url_for('exercises', part="no")}}" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Wykaz ćwiczeń</span></a></li>
+          <li><a href="{{url_for('plan', day=1, data_from='2020-01-01')}}" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Aktualny plan</span></a></li>
+
           <li><a href="{{url_for('plans')}}" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Wykaz planów</span></a></li>
-          <li><a href="/logowanie" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Panel edycji planów</span></a></li>
+          <li><a href="{{url_for('exercises', part="no")}}" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Wykaz ćwiczeń</span></a></li> <!-- <li><a href="/logowanie" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Panel edycji planów</span></a></li>-->
+          <li><a href="/login" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Panel do edycji</span></a></li>
+
           <li><a href="/addexercise" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Dodaj ćwiczenie</span></a></li>
           <li><a href="/addseries" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Dodaj serię</span></a></li>
-          <li><a href="/subpage" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Podstrona</span></a></li>
+          <li><a href="/addplan" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Dodaj plan</span></a></li>
           <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Kontakt</span></a></li>
         </ul>
       </nav><!-- .nav-menu -->

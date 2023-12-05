@@ -12,35 +12,28 @@
     </div>
 </header><!-- End Header -->
 
-
-
 <main id="main">
-    <!-- ======= Breadcrumbs ======= -->
-    <section class="breadcrumbs">
-      <div class="container">
-
-
-
-      </div>
-    </section><!-- End Breadcrumbs -->
-    <!-- ======= About Section ======= -->
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
         <div class="container">
-             <div class="section-title"><h2>{{wynik[0][1]}}</h2></div>
+           <div class="section-title">  <h2>{{wynik[0][1]}}</h2> </div>
 
-                <ul style="list-style-type: none;">
-                        <li><i class="bi bi-chevron-right"></i> <strong>Opis</strong> {{wynik[0][2]}} </li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>W planach występuje:</strong> {{ile_razy}}  </li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Ostatni raz w planie:</strong> {{kiedy}}  </li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>W jakich seriach/ z jakimi obciążeniami było robione:</strong></br>
+           <ul style="list-style-type: none;">
+                        <li><strong>Opi ćwiczenia:</strong> {{wynik[0][2]}} </li>
+                        <li><strong>W planach występuje:</strong> {{ile_razy}}  </li>
+                        <li><strong>Ostatni raz w planie:</strong> {{kiedy}}  </li>
+                        <li><strong>W jakich seriach/ z jakimi obciążeniami było robione:</strong></br>
                         {% if serie!=[]: %}
                             {% include "series_list.txt" %}
                         {% endif %}
                         </li>
                     </ul>
                     <hr>
-        </div>
-    <!-- End About Section -->
+            <img src="/static/assets/img/back_arrow.jpg" class="img-fluid" alt="" onclick="history.back()" style="align:right"> <a href="javascript:history.back()">Powrót do poprzedniej strony</a>
 
+
+        </div>
+    </section><!-- End Resume Section -->
 </main><!-- End #main -->
 
 <!-- ======= Footer ======= -->
