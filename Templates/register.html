@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "head.txt" %}
+<body>
+<!-- ======= Mobile nav toggle button ======= -->
+<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+<!-- ======= Header ======= -->
+<header id="header">
+    <div class="d-flex flex-column">
+        {% include "menu.txt" %}
+    </div>
+</header><!-- End Header -->
+<main id="main">
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
+        <div class="container">
+
+                        <h1>Register Page</h1>
+
+                            <form method="POST" action="">
+                                {{ form.hidden_tag() }}
+                                {{ form.username }}
+                                {{ form.password }}
+                                {{ form.submit }}
+                            </form>
+
+                            <a href="{{ url_for('login') }}">Already have an account? Log In</a>
+        </div>
+    </section><!-- End Resume Section -->
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{% include "footer.txt" %}
+
+
+
+</body>
+
+</html>

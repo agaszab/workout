@@ -1,0 +1,14 @@
+plan na dany dzień ze zliczeniem ile partii mięśni ćwiczymy danego dnia
+
+select  p.data_from, p.data_to, p.day, e.name, e.description, e.body_part, c.body_part_count, s.number_sets, s.number_repeats, s.weight, s.superseries, s.set, p.order, e.ide
+                    from exercise e inner join series s
+                    on e.ide = s.id_exercise
+                        inner join plan p
+                        on p.id_series=s.ids
+                        inner join ( select  p.data_from as date_count, p.day, count(distinct e.body_part) as body_part_count
+							from exercise e inner join series s
+								on e.ide = s.id_exercise
+								inner join plan p
+									on p.id_series=s.ids group by p.data_from, p.day )  c
+						on c.date_count=p.data_from and p.day=c.day
+                    where p.data_from =  '2023-09-21' and p.day=4   order by p.order

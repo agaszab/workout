@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "head.txt" %}
+<body>
+<!-- ======= Mobile nav toggle button ======= -->
+<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+<!-- ======= Header ======= -->
+<header id="header">
+    <div class="d-flex flex-column">
+        {% include "menu.txt" %}
+    </div>
+</header><!-- End Header -->
+
+<main id="main">
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
+        <div class="container">
+            <div class="section-title">
+    <h2>Edycja ćwiczenia</h2>
+</div>
+
+
+           <Form method="POST", name=exercise", action="/editex">
+              {{ form.csrf_token }}
+            <Table style="border:0; padding:10px">
+           <tr><td>{{form.name.label}}</td><td>{{form.name}}</td></tr>
+           <tr><td>{{form.description.label}}</td><td>{{form.description}}</td></tr>
+           <tr><td>{{form.body_part.label}}</td><td>{{form.body_part}}</td></tr>
+            </Table>
+               <br>{{form.submit()}}
+           </form>
+        </div>
+    </section><!-- End Resume Section -->
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{% include "footer.txt" %}
+
+</body>
+</html>

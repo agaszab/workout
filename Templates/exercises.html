@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "head.txt" %}
+<body>
+<!-- ======= Mobile nav toggle button ======= -->
+<i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+<!-- ======= Header ======= -->
+<header id="header">
+    <div class="d-flex flex-column">
+        {% include "menu.txt" %}
+    </div>
+</header><!-- End Header -->
+
+<main id="main">
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
+        <div class="container">
+
+            {% if (part=="no") or (wynik==[]): %}
+            {% include "cwiczenia.txt" %}
+            {% else: %}
+            {% include "cwiczenia_partia.txt" %}
+            {% endif %}
+
+        </div>
+    </section><!-- End Resume Section -->
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+{% include "footer.txt" %}
+
+
+
+</body>
+
+</html>
