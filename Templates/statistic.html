@@ -15,8 +15,22 @@
     <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
         <div class="container">
+            <div class="section-title">
+    <h2>{{tutul}} </h2>
+</div>
 
-        {{wynik}}
+<ul>
+                    {% for item in wynik %}
+
+                          <li>{{item[1]}} - <a href="{{url_for('exercise', id=item[2])}}"><em><b>{{item[0]}}</b></em></a>
+                              ({{item[3]}})</li>
+
+                     {% endfor %}
+ </ul>
+
+  <img src="/static/assets/img/back_arrow.jpg" class="img-fluid" alt="" onclick="history.back()" style="align:right"> <a href="javascript:history.back()">Powrót do poprzedniej strony</a>
+
+
 
         </div>
     </section><!-- End Resume Section -->

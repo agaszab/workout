@@ -4,7 +4,7 @@ from forms import *
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
-from flask import Flask, render_template, request, url_for, session, redirect
+from flask import Flask, render_template, request, url_for, redirect
 from flask_bcrypt import Bcrypt
 
 mydb = mysql.connector.connect(user='root', password='kociakolka', host='127.0.0.1', database='workout')
@@ -68,6 +68,16 @@ def verify_password(self, stored_password, provided_password):
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == stored_password
 
+def three_last():
+    sql = "Select distinct data_from, data_to from plan order by data_from desc limit 3"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    print(myresult)
+    data_from = myresult[2][0]
+    data_to = myresult[0][1]
+    print(type(data_from))
+    print(data_to)
+    return data_from, data_to
 
 # def login_user(self):
 #     sql="select idu, login, pass from users where login=?"
@@ -364,8 +374,6 @@ def login():
 
 
 @app.route('/logout', methods=['GET', 'POST'])
-@login_required
-@login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
@@ -496,20 +504,23 @@ def plan_from():
     if request.method == 'POST':
         date = form.startdate.data
         print(date)
-        mycursor.execute("SELECT data_from FROM workout.plan where  data_from < '"+str(date)+"' order by data_from desc limit 1")
+        mycursor.execute("SELECT data_from FROM workout.plan where  data_from < '"+str(date)+"' and data_to > '"+str(date)+"' order by data_from desc limit 1")
         myresult = mycursor.fetchall()
+
+    if len(myresult)==0:
+        return render_template('nodata.html')
+    else:
         data_from = str(myresult[0][0])
         print(data_from)
         day = 1
-
-    wynik = pokaz_plan(day, data_from)
-    body_part = wynik[2]
-    if len(wynik[2])==1:
-        pom = 0
-    if len(wynik[2])==2:
-        pom = 1
-    else:
-        pom = 1
+        wynik = pokaz_plan(day, data_from)
+        body_part = wynik[2]
+        if len(wynik[2])==1:
+            pom = 0
+        if len(wynik[2])==2:
+            pom = 1
+        else:
+            pom = 1
 
     return render_template('plan.html', day=day, wynik=wynik, pom=pom, body_part=body_part)
 
@@ -555,35 +566,73 @@ def plans():
 
 @app.route("/statistic", methods=["GET", "POST"])
 def statistic():
-    sql = ""
-    if request.args['opt']:  # part 1 -> najczęściej, 2 -> ostatnie 3 mies, 3 -> najrzadziej
-        if request.args['opt'] == 1:
-            sql = """select   e.name, e.body_part, e.ide, count(s.id_exercise) as ile 
+    sql=""
+    tytul = ""
+
+    if request.args['opt']:                     # part 1 -> najczęściej, 2 -> ostatnie 3 mies, 3 -> najrzadziej
+        opt = int(request.args['opt'])
+    else:
+        return render_template('exercises.html', part="no")
+
+    if opt == 1:
+        sql = """select  e.name, e.body_part, e.ide, count(s.id_exercise) as ile 
                     from exercise e inner join series s 
                      on e.ide = s.id_exercise 
                         inner join plan p
                         on p.id_series=s.ids  
                group by e.ide         
-                order by ile desc limit 7"""
-        if request.args['opt'] == 2:
-            sql = "select * from plan order by id_series DESC"
-        if request.args['opt'] == 3:
-            sql = "select count(id_series) as number from plan group by id_series order by id_series ASC"
-    else:
-        return render_template('exercises.html', part="no")
-    print(sql)
-    # mycursor.execute(sql)
-    # myresult = mycursor.fetchall()
-    # print(myresult)
-    # wynik = pokaz_plany(sql)
+                order by ile desc limit 10"""
+        tytul ="Ćwiczenia najczęściej wykonywane w planach"
 
-    return render_template('statistic.html')# , wynik=wynik)
+    if opt == 2:
+        wynik=three_last()
+        print(wynik)
+        sql = """select e.name, e.body_part, e.ide, count(s.id_exercise) as ile 
+                    from exercise e inner join series s 
+                     on e.ide = s.id_exercise 
+                        inner join plan p
+                        on p.id_series=s.ids  
+            where p.data_from >= '""" + str(wynik[0]) +"""' and data_to <= '"""+ str(wynik[1])  + """'
+               group by e.ide         
+                order by e.body_part"""
+        tytul ="Ćwiczenia wykonywanie w ostatnich trzech miesiącach"
+
+    if opt == 3:
+        sql = """select e.name, e.body_part, e.ide, count(s.id_exercise) as ile 
+                    from exercise e inner join series s 
+                     on e.ide = s.id_exercise 
+                        inner join plan p
+                        on p.id_series=s.ids   
+               group by e.ide         
+                order by ile limit 15"""
+
+        tytul ="Najrzadziej wykonywane ćwiczenia"
+
+    if opt ==4:
+        sql = """select e.name, e.body_part, e.ide, count(s.id_exercise) as ile 
+                    from exercise e left join series s 
+                     on e.ide = s.id_exercise 
+                        left join plan p
+                        on p.id_series=s.ids  
+                where p.id_series is null and s.id_exercise is null
+               group by e.ide """
+        tytul = "ćwiczenia, które są w bazie a nigdy nie były wykorzystane w planach"
+
+    if opt < 1 or opt > 4:  # przypadek, gdy argument jest ale ma złą wartość
+        return render_template('exercises.html', part="no")
+
+    mycursor.execute(sql)
+    wynik = mycursor.fetchall()
+    print(wynik)
+
+    return render_template('statistic.html', wynik=wynik, tutul=tytul)
 
 
 @app.route("/panel")
 @login_required
 def panel():
-    return render_template('panel.html')
+    user = current_user.username
+    return render_template('panel.html', user=user)
 
 
 @app.route("/formularz", methods=["GET", "POST"])
@@ -722,9 +771,32 @@ def editseries():
 @app.route("/addplan", methods=["GET", "POST"])
 @login_required
 def addplan():
-    forme = ExerciseForm()
+    forme = PlanForm()
+    # sql="select * from exercise where body_part='" + part + "' order by name"
     return render_template('addplan.html', form=forme)
 
+@app.route("/addpl", methods=["GET", "POST"])
+@login_required
+def addpl():
+    form = PlanForm()
+    forms = SeriesForm()
+    if request.method == 'POST':
+        date_from = form.time_from.data
+        date_to = form.time_to.data
+        day = int(form.day.data)
+        order = int(form.order.data)
+        # number_repeats = str(forms.number_repeats.data)
+        # weight = str(forms.weight.data)
+        # superseries = str(forms.superseries.data)
+        # set = str(forms.set.data)
+        # if (number_sets != "" and number_repeats != ""):
+        #     add_series(exercise, number_sets, number_repeats, weight, superseries, set, mydb)
+        # sql="select ids,name from exercise where name="+exercise
+        # wynik = pokaz_ex(sql)
+        # ide=int(wynik[0])
+        print(exercise)
+
+    return render_template('addplan.html', form=form)
 
 @app.route("/editplan", methods=["GET", "POST"])
 @login_required

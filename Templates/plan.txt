@@ -17,14 +17,14 @@
                         {% for item in wynik[0] %}
                             <div class="resume-item">
 
-                                <a href="{{url_for('exercise', id=item[13])}}"><p><em><b>{{item[3]}}</b></em></p></a>
-
+                                <a href="{{url_for('exercise', id=item[13])}}"><em><b>{{item[3]}}</b></em></a><br>
+                            {{item[4]}}
+                            <br><br>
                                 <ul>
-                                    <li>Opis: {{item[4]}}</li>
                                     <li>Ilość serii: {{item[6]}}</li>
                                     <li>Ilość powtórzeń w serii: {{item[7]}}</li>
                                     <li>Ciężar: {{item[8]}}</li>
-                                    <li>Cwiczenie łączone: {{item[9]}} -> {{item[10]}}</li>
+                                     {% if item[9]==1: %} <li>Cwiczenie łączone: -> {{item[10]}} </li>{% endif %}
                                 </ul>
                             </div>
                          {% endfor %}
@@ -36,19 +36,22 @@
 
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
                     {% if (pom==1): %}
-                     <h3 class="resume-title">{{body_part[1]}}    {{body_part[2]}} </h3>
+                     <h3 class="resume-title">{{body_part[1]}}   {% if body_part[2]: %}  +  {{body_part[2]}} {% endif %}</h3>
 
                     {% for item in wynik[1] %}
+                    {% if item[9] == 0 or item[10] != wynik[item-1][10]: %}
                         <div class="resume-item">
-                            <a href="{{url_for('exercise', id=item[13])}}"><p><em><b>{{item[3]}}</b></em></p></a>
+                        {% endif %}
+                            <a href="{{url_for('exercise', id=item[13])}}"><em><b>{{item[3]}}</b></em></a><br>
+                            {{item[4]}}
+                            <br><br>
                             <ul>
-                                <li>Opis: {{item[4]}}</li>
                                 <li>Ilość serii: {{item[6]}}</li>
                                 <li>Ilość powtórzeń w serii: {{item[7]}}</li>
                                 <li>Ciężar: {{item[8]}}</li>
-                                <li>Cwiczenie łączone: {{item[9]}} -> {{item[10]}}</li>
+                                {% if item[9]==1: %} <li>Cwiczenie łączone: -> {{item[10]}} </li>{% endif %}
                             </ul>
-                        </div>
+                    {% if item[9] == 0 or item[10] != wynik[item-1][10]: %}  </div> {% endif %}
                      {% endfor %}
 
                 {% endif %}

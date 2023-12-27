@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SelectField, DateField, PasswordField, SubmitField, validators, TextAreaField, RadioField
+from wtforms import StringField, IntegerField, SelectField, DateField, PasswordField, SubmitField, validators, TextAreaField, RadioField, BooleanField
 from wtforms.validators import DataRequired, Length, ValidationError, InputRequired
 # from main import User
 
@@ -54,7 +54,7 @@ class LoginForm(FlaskForm):
 
 class ExerciseForm(FlaskForm):
 
-    name = StringField('Nazwa ćwiczenia', validators=[validators.DataRequired()])
+    name = StringField('Nazwa ćwiczenia', validators=[validators.DataRequired()], )
     description = TextAreaField('Opis ćwiczenia', validators=[validators.optional()])
     body_part = SelectField('Partia mięśni', choices=["klatka", "plecy", "triceps", "biceps", "barki", "brzuch", "nogi"])
     submit = SubmitField("Wstaw")
@@ -68,15 +68,19 @@ class SeriesForm(FlaskForm):
     number_repeats = StringField('Ilość powtórzeń')
     weight = StringField('Obciążenie')
     superseries = RadioField('Superseria', choices=[(0, 'nie'), (1, 'tak')], default=0)
+    superseries_n = BooleanField('superseria')
     set = IntegerField('Numer superserii',  default=0)
     submit = SubmitField("Wstaw")
 
 class PlanForm(FlaskForm):
 
+    body_part = SelectField('Partia mięśni',
+                            choices=["klatka", "plecy", "triceps", "biceps", "barki", "brzuch", "nogi"])
+    exercise = SelectField(u'Ćwiczenie', validators=[DataRequired()])
     series = SelectField(u'Seria', validators=[DataRequired()])
-    period = StringField('Ilość powtórzeń')
-    weight = StringField('Obciążenie')
-    superseries = RadioField('Superseria', choices=[(0, 'nie'), (1, 'tak')], default=0)
-    set = IntegerField('Numer superserii',  default=0)
+    time_from = DateField('Data rozpoczęcia: ', format='%Y-%m-%d', validators=(validators.DataRequired(),))
+    time_to = DateField('Data zakończenia : ', format='%Y-%m-%d', validators=(validators.DataRequired(),))
+    day = SelectField('Dzień treningowy', choices=["1- barki i brzuch", "2- plecy, triceps i biceps", "3 - klatka i brzuch", "4 - nogi"])
+    order = IntegerField('Kolejność ćwiczeń danego dnia')
     submit = SubmitField("Wstaw")
 

@@ -1,0 +1,10 @@
+//templates/response.html
+<div class="form-group">
+      <label>Select Sub Category</label>
+      <select name="sub_category"  id="sub_category_id" class="form-control">
+         <option value="" selected="selected"></option>
+          {% for row in carmodels %}
+          <option value="{{row.model_id}}">{{row.car_models}}</option>
+          {% endfor %}
+      </select>
+</div>

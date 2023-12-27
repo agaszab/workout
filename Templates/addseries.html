@@ -20,15 +20,40 @@
     <h2>Dodawanie nowej serii</h2>
 </div>
 
-<Form method="POST", name=series", action="/addse">
+<Form method="POST", name="series", action="/addse">
               {{ form.csrf_token }}
 
-           {{form.exercise.label}}  {{form.exercise}} </br>
-           {{form.number_sets.label}}  {{form.number_sets}} </br>
-           {{form.number_repeats.label}}  {{form.number_repeats}} </br>
-           {{form.weight.label}}  {{form.weight}} </br>
-           {{form.superseries.label}}  {{form.superseries}} </br>
-           {{form.set.label}}  {{form.set}} </br>
+    <table  style="border:1; padding:30px; text-align:left; bacground:white" class="form">
+       <tr>
+           <td>{{form.exercise.label}}</td>
+           <td>{{form.exercise}}</td>
+       </tr>
+       <tr>
+           <td>{{form.number_sets.label}}</td>
+           <td>{{form.number_sets}} </td>
+       </tr>
+       <tr>
+           <td>{{form.number_repeats.label}}</td>
+           <td>{{form.number_repeats}}</td>
+       </tr>
+       <tr>
+           <td>{{form.weight.label}}</td>
+           <td>{{form.weight}}</td>
+       </tr>
+       <tr>
+           <td>{{form.superseries.label}}</td>
+           <td>{{form.superseries}}</td>
+       </tr>
+        <tr>
+           <td>{{form.superseries_n.label}}</td>
+           <td>{{form.superseries_n}}</td>
+       </tr>
+       <tr>
+           <td>{{form.set.label}}</td>
+           <td>{{form.set}}</td>
+       </tr>
+    </table>
+
            {{form.submit()}}
            </form>
 
