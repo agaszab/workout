@@ -4,7 +4,7 @@ from forms import *
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_bcrypt import Bcrypt
 
 mydb = mysql.connector.connect(user='root', password='kociakolka', host='127.0.0.1', database='workout')
@@ -247,6 +247,15 @@ def pokaz_ex(sql):
         cwiczenia.append(cwiczenie)
     return cwiczenia
 
+def pokaz_pl(sql):
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    print(myresult)
+    serie = []
+    for x in myresult:
+        seria = [x[2], x[3],x[4], x[5], x[6]]
+        serie.append(seria)
+    return serie
 
 def pokaz_trening(sql):
     mycursor.execute(sql)
@@ -268,14 +277,15 @@ def add_exercise(name, description, body_part, mydb):
     mydb.commit()
 
 
-def update_exercise(name, description, body_part, mydb):
+def update_exercise(id, name, description, body_part, mydb):
     print(name)
     print(description)
     print(body_part)
+    sql = f"UPDATE exercise SET name='" + name + "' , description='" + description + "', body_part='" + body_part +"' WHERE ide="+ id
     # sql=f"INSERT INTO exercise(name, description, body_part) VALUES ('"+name+"','"+description+"','"+body_part+"')"
-    # cursor = mydb.cursor()
-    # cursor.execute(sql)
-    # mydb.commit()
+    cursor = mydb.cursor()
+    cursor.execute(sql)
+    mydb.commit()
 
 
 def add_series(id_exercise, number_sets, number_repeats, weight, superseries, set, mydb):
@@ -644,7 +654,6 @@ def formularz():
 @login_required
 def addex():
     forme = ExerciseForm()
-    form = SearchForm()
     if request.method == 'POST':
         name = str(forme.name.data)
         description = str(forme.description.data)
@@ -654,16 +663,16 @@ def addex():
         print(body_part)
         if (name != ""):
             add_exercise(name, description, body_part, mydb)
-            return render_template('index.html', form=form, message="ćwiczenie zostało dodane")
-    return render_template('subpage.html', form=form)
+            return render_template('dodane.html')
+    return render_template('error.html')
 
 
 @app.route("/editex", methods=["GET", "POST"])
 @login_required
 def editex():
     forme = ExerciseForm()
-    form = SearchForm()
     if request.method == 'POST':
+        id = str(forme.id.data)
         name = str(forme.name.data)
         description = str(forme.description.data)
         body_part = str(forme.body_part.data)
@@ -671,38 +680,29 @@ def editex():
         print(description)
         print(body_part)
         if (name != ""):
-            update_exercise(name, description, body_part, mydb)
-            return render_template('index.html', form=form, message="ćwiczenie zostało dodane")
-    return render_template('subpage.html', form=form)
+            update_exercise(id, name, description, body_part, mydb)
+            return render_template('dodane.html')
+    return render_template('editexercise.html')
 
 
 @app.route("/addse", methods=["GET", "POST"])
 @login_required
 def addse():
     forms = SeriesForm()
-    form = SearchForm()
     if request.method == 'POST':
         exercise = int(forms.exercise.data)
         number_sets = str(forms.number_sets.data)
         number_repeats = str(forms.number_repeats.data)
         weight = str(forms.weight.data)
-        superseries = str(forms.superseries.data)
+        if (forms.superseries.data==True):
+            super="1"
+        else:
+            super="0"
         set = str(forms.set.data)
         if (number_sets != "" and number_repeats != ""):
-            add_series(exercise, number_sets, number_repeats, weight, superseries, set, mydb)
-        # sql="select ids,name from exercise where name="+exercise
-        # wynik = pokaz_ex(sql)
-        # ide=int(wynik[0])
-        print(exercise)
-        print(number_sets)
-        print(number_repeats)
-        print(weight)
-        print(superseries)
+            add_series(exercise, number_sets, number_repeats, weight, super, set, mydb)
 
-        # if (exercise!=""):
-        #     add_series(name, description, mydb)
-        #     return render_template('index.html', form=form, message="ćwiczenie zostało dodane")
-    return render_template('index.html', form=form)
+    return render_template('dodane.html')
 
 
 @app.route("/editse", methods=["GET", "POST"])
@@ -744,8 +744,29 @@ def addexercise():
 @app.route("/editexercise", methods=["GET", "POST"])
 @login_required
 def editexercise():
-    forme = ExerciseForm()
-    return render_template('editexercise.html', form=forme)
+    flag=0
+    if (request.method == 'POST'):
+        print()
+        forme=ChoiseForm()
+        form = ExerciseForm()
+       # id = request.args['id']
+        id= forme.choise.data
+        print(id)
+        sql = "select * from exercise where ide=" + id
+        mycursor.execute(sql)
+        wynik = mycursor.fetchall()
+        print(wynik)
+        form.id.data=wynik[0][0]
+        form.name.data = wynik[0][1]
+        form.description.data = wynik[0][2]
+        form.body_part.data = wynik[0][3]
+    else:
+        form = ChoiseForm()
+        sql = "select ide, name from exercise order by name"
+        wynik = pokaz_ex(sql)
+        form.choise.choices = [(ex[0], ex[1]) for ex in wynik]
+        flag=1
+    return render_template('editexercise.html', form=form, flag=flag)
 
 
 @app.route("/addseries", methods=["GET", "POST"])
@@ -771,9 +792,14 @@ def editseries():
 @app.route("/addplan", methods=["GET", "POST"])
 @login_required
 def addplan():
-    forme = PlanForm()
+
+    sql = "select * from exercise e inner join series s on e.ide = s.id_exercise order by name"
+    wynik = pokaz_pl(sql)
+    print(wynik)
+    formp = PlanForm()
+    formp.series.choices = [(se[0],se[1]) for se in wynik]
     # sql="select * from exercise where body_part='" + part + "' order by name"
-    return render_template('addplan.html', form=forme)
+    return render_template('addplan.html', form=formp)
 
 @app.route("/addpl", methods=["GET", "POST"])
 @login_required

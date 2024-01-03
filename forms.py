@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SelectField, DateField, PasswordField, SubmitField, validators, TextAreaField, RadioField, BooleanField
+from wtforms import StringField, IntegerField, SelectField, DateField, PasswordField, SubmitField, validators, TextAreaField, HiddenField, BooleanField
 from wtforms.validators import DataRequired, Length, ValidationError, InputRequired
 # from main import User
 
@@ -12,13 +12,13 @@ class SearchForm(FlaskForm):
     # rok = SelectField('Miesiac', choices=["2022", "2023"])
     startdate = DateField('Pokaż plan treningowy na dzień : ', format='%Y-%m-%d', validators=(validators.DataRequired(),))
     # stopdate = DateField('Do: ', format='%Y-%m-%d', validators=(validators.DataRequired(),))
-    submit = SubmitField("Pokaż")
+    submit = SubmitField("Pokaż", render_kw={'class': "btn btn-dark"})
 
 
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
     password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
-    submit = SubmitField('Register')
+    submit = SubmitField('Register', render_kw={'class': "btn btn-dark"})
 
     def validate_username(self, username):
         existing_user_username = User.query.filter_by(username=username.data).first()
@@ -29,7 +29,7 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
     password = PasswordField(validators=[InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
-    submit = SubmitField('Login')
+    submit = SubmitField('Login', render_kw={'class': "btn btn-dark"})
 
 
 # class ExerciseForm(FlaskForm):
@@ -53,24 +53,23 @@ class LoginForm(FlaskForm):
 
 
 class ExerciseForm(FlaskForm):
-
+    id = HiddenField('Id')
     name = StringField('Nazwa ćwiczenia', validators=[validators.DataRequired()], )
     description = TextAreaField('Opis ćwiczenia', validators=[validators.optional()])
     body_part = SelectField('Partia mięśni', choices=["klatka", "plecy", "triceps", "biceps", "barki", "brzuch", "nogi"])
-    submit = SubmitField("Wstaw")
+    submit = SubmitField("Wstaw", render_kw={'class': "btn btn-dark"})
 
 class SeriesForm(FlaskForm):
     # choices=[]
     # for item in list:
     #     choices.append(item[1])
-    exercise = SelectField(u'Ćwiczenie', validators=[DataRequired()])
+    exercise = SelectField('Ćwiczenie', validators=[DataRequired()])
     number_sets = IntegerField('Ile serii')
     number_repeats = StringField('Ilość powtórzeń')
     weight = StringField('Obciążenie')
-    superseries = RadioField('Superseria', choices=[(0, 'nie'), (1, 'tak')], default=0)
-    superseries_n = BooleanField('superseria')
+    superseries = BooleanField('superseria')
     set = IntegerField('Numer superserii',  default=0)
-    submit = SubmitField("Wstaw")
+    submit = SubmitField("Wstaw", render_kw={'class': "btn btn-dark"})
 
 class PlanForm(FlaskForm):
 
@@ -82,5 +81,8 @@ class PlanForm(FlaskForm):
     time_to = DateField('Data zakończenia : ', format='%Y-%m-%d', validators=(validators.DataRequired(),))
     day = SelectField('Dzień treningowy', choices=["1- barki i brzuch", "2- plecy, triceps i biceps", "3 - klatka i brzuch", "4 - nogi"])
     order = IntegerField('Kolejność ćwiczeń danego dnia')
-    submit = SubmitField("Wstaw")
+    submit = SubmitField("Wstaw", render_kw={'class': "btn btn-dark"})
 
+class ChoiseForm(FlaskForm):
+    choise = SelectField(u'Wybierz dane do edycji', validators=[DataRequired()])
+    submit = SubmitField("Wybierz", render_kw={'class': "btn btn-dark"})

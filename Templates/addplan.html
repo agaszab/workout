@@ -17,26 +17,20 @@
     <section id="resume" class="resume">
         <div class="container">
             <div class="section-title">
-    <h2>Dodawanie nowej serii</h2>
+    <h2>Dodawanie nowego planu</h2>
 </div>
 
-<Form method="POST", name="series", action="/addpl">
+<Form method="POST", name="plan", action="/addpl">
               {{ form.csrf_token }}
 
-    <div class="form-group">
-        <label>Select Category</label>
-        {{form.day.label}}  {{form.day}}
-      </div>
-      <div id="show_sub_categories"></div>
-      <button type="submit" class="btn btn-primary">Submit</button>
 
-           {{form.exercise.label}}  {{form.exercise}} </br>
-           {{form.series.label}}  {{form.series}} </br>
-           {{form.time_from.label}}  {{form.time_from}} </br>
-           {{form.time_to.label}}  {{form.time_to}} </br>
-           {{form.order.label}}  {{form.order}} </br>
-           {{form.submit()}}
-
+<Table WIDTH="70%">
+           <tr><td>{{form.series.label}}</td><td>{{form.series}}</td></tr>
+           <tr><td>{{form.time_from.label}}</td><td>{{form.time_from}}</td></tr>
+            <tr><td>{{form.time_to.label}}</td><td>{{form.time_to}}</td></tr>
+            <tr><td>{{form.order.label}}</td><td>{{form.order}}</td></tr>
+            <tr><td>{{form.submit()}}</td><td></td></tr>
+            </Table>
            </form>
 
         </div>

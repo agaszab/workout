@@ -17,45 +17,41 @@
     <section id="resume" class="resume">
         <div class="container">
             <div class="section-title">
-    <h2>Dodawanie nowej serii</h2>
-</div>
+                <h2>Dodawanie nowej serii</h2>
+            </div>
 
-<Form method="POST", name="series", action="/addse">
-              {{ form.csrf_token }}
+            <Form method="POST", name="series", action="/addse">
+                {{ form.csrf_token }}
 
-    <table  style="border:1; padding:30px; text-align:left; bacground:white" class="form">
-       <tr>
-           <td>{{form.exercise.label}}</td>
-           <td>{{form.exercise}}</td>
-       </tr>
-       <tr>
-           <td>{{form.number_sets.label}}</td>
-           <td>{{form.number_sets}} </td>
-       </tr>
-       <tr>
-           <td>{{form.number_repeats.label}}</td>
-           <td>{{form.number_repeats}}</td>
-       </tr>
-       <tr>
-           <td>{{form.weight.label}}</td>
-           <td>{{form.weight}}</td>
-       </tr>
-       <tr>
-           <td>{{form.superseries.label}}</td>
-           <td>{{form.superseries}}</td>
-       </tr>
-        <tr>
-           <td>{{form.superseries_n.label}}</td>
-           <td>{{form.superseries_n}}</td>
-       </tr>
-       <tr>
-           <td>{{form.set.label}}</td>
-           <td>{{form.set}}</td>
-       </tr>
-    </table>
+                <table WIDTH="70%">
+                    <tr>
+                        <td WIDTH="100">{{form.exercise.label}}</td>
+                        <td>{{form.exercise}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{form.number_sets.label}}</td>
+                        <td>{{form.number_sets}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{form.number_repeats.label}}</td>
+                        <td>{{form.number_repeats}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{form.weight.label}}</td>
+                        <td>{{form.weight}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{form.superseries.label}} </td>
+                        <td>{{form.superseries}} {{form.set.label}} &nbsp;&nbsp;&nbsp; {{form.set}}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
 
-           {{form.submit()}}
-           </form>
+                {{form.submit()}}
+            </form>
 
         </div>
     </section><!-- End Resume Section -->
