@@ -25,25 +25,26 @@
            <Form method="POST", name="exercise", action="/editex">
               {{ form.csrf_token }}
                {{form.id}}
-            <Table style="border:0; padding:10px">
-           <tr><td>{{form.name.label}}</td><td>{{form.name}}</td></tr>
-           <tr><td>{{form.description.label}}</td><td>{{form.description}}</td></tr>
-           <tr><td>{{form.body_part.label}}</td><td>{{form.body_part}}</td></tr>
-            </Table>
+                <Table  WIDTH="70%">
+                   <tr><td WIDTH="130">{{form.name.label}}</td><td>{{form.name}}</td></tr>
+                   <tr><td>{{form.description.label}}</td><td>{{form.description}}</td></tr>
+                   <tr><td>{{form.body_part.label}}</td><td>{{form.body_part}}</td></tr>
+                </Table>
                <br>{{form.submit()}}
            </form>
 
-       {% else: %}
+{% else: %}
             <Form method="POST", name="exercise", action="/editexercise">
               {{ form.csrf_token }}
-            <Table style="border:0; padding:10px">
-           <tr><td>{{form.choise.label}}</td><td>{{form.choise}}</td></tr>
-
-            </Table>
+                <Table style="border:0; padding:10px">
+                    <tr><td>{{form.choise.label}}</td><td>{{form.choise}}</td></tr>
+                </Table>
                <br>{{form.submit()}}
            </form>
 
-            {% endif %}
+{% endif %}
+
+       <div class="back"><img src="/static/assets/img/back_arrow.jpg" class="img-fluid" alt="" onclick="history.back()" style="align:right"> <a href="javascript:history.back()">Powrót do poprzedniej strony</a></div>
 
         </div>
     </section><!-- End Resume Section -->

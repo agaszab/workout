@@ -3,6 +3,8 @@ from wtforms import StringField, IntegerField, SelectField, DateField, PasswordF
 from wtforms.validators import DataRequired, Length, ValidationError, InputRequired
 # from main import User
 
+
+
 class SearchForm(FlaskForm):
     # miesiac2 = StringField('Miesiac')
     # ilosc = IntegerField('Ile miesiecy')
@@ -32,25 +34,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login', render_kw={'class': "btn btn-dark"})
 
 
-# class ExerciseForm(FlaskForm):
-#
-#     name = StringField('Nazwa ćwiczenia', validators=[validators.DataRequired()])
-#     description = TextAreaField('Opis ćwiczenia', validators=[validators.optional()])
-#     submit = SubmitField("Wstaw")
-
-
-# class SeriesForm(FlaskForm):
-#     # choices=[]
-#     # for item in list:
-#     #     choices.append(item[1])
-#     exercise = SelectField(u'Ćwiczenie', validators=[DataRequired()])
-#     number_sets = IntegerField('Ile serii')
-#     number_repeats = StringField('Ilość powtórzeń')
-#     weight = StringField('Obciążenie')
-#     superseries = RadioField('Superseria', choices=[(0, 'nie'), (1, 'tak')], default=0)
-#     set = IntegerField('Numer superserii',  default=0)
-#     submit = SubmitField("Wstaw")
-
 
 class ExerciseForm(FlaskForm):
     id = HiddenField('Id')
@@ -63,6 +46,7 @@ class SeriesForm(FlaskForm):
     # choices=[]
     # for item in list:
     #     choices.append(item[1])
+    id = HiddenField('Id')
     exercise = SelectField('Ćwiczenie', validators=[DataRequired()])
     number_sets = IntegerField('Ile serii')
     number_repeats = StringField('Ilość powtórzeń')
@@ -70,13 +54,14 @@ class SeriesForm(FlaskForm):
     superseries = BooleanField('superseria')
     set = IntegerField('Numer superserii',  default=0)
     submit = SubmitField("Wstaw", render_kw={'class': "btn btn-dark"})
-
+    submit_wybierz = SubmitField("Wybierz", render_kw={'class': "btn btn-dark"})
+    submit_zapisz = SubmitField("Zapisz", render_kw={'class': "btn btn-dark"})
 class PlanForm(FlaskForm):
 
     body_part = SelectField('Partia mięśni',
                             choices=["klatka", "plecy", "triceps", "biceps", "barki", "brzuch", "nogi"])
     exercise = SelectField(u'Ćwiczenie', validators=[DataRequired()])
-    series = SelectField(u'Seria', validators=[DataRequired()])
+    series = SelectField(u'Seria', validators=[DataRequired()], id="series")
     time_from = DateField('Data rozpoczęcia: ', format='%Y-%m-%d', validators=(validators.DataRequired(),))
     time_to = DateField('Data zakończenia : ', format='%Y-%m-%d', validators=(validators.DataRequired(),))
     day = SelectField('Dzień treningowy', choices=["1- barki i brzuch", "2- plecy, triceps i biceps", "3 - klatka i brzuch", "4 - nogi"])

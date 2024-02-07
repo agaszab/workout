@@ -19,19 +19,23 @@
             <div class="section-title"><h2>Dodawanie nowego ćwiczenia</h2></div>
 
 
-<Form method="POST" name="exercise" action="/addex">
-              {{ form.csrf_token }}
-            <Table WIDTH="70%">
-           <tr><td WIDTH="100">{{form.name.label}}</td><td>{{form.name}}</td></tr>
-           <tr><td>{{form.description.label}}</td><td>{{form.description}}</td></tr>
-           <tr><td>{{form.body_part.label}}</td><td>{{form.body_part}}</td></tr>
-            <tr><td></td><td></td></tr>
-            </Table>
-    {{form.submit()}}
-               </form>  <br>
+                <Form method="POST" name="exercise" action="/addex">
+                      {{ form.csrf_token }}
+                        <Table WIDTH="70%">
+                            <tr><td WIDTH="100">{{form.name.label}}</td><td>{{form.name}}</td></tr>
+                            <tr><td>{{form.description.label}}</td><td>{{form.description}}</td></tr>
+                            <tr><td>{{form.body_part.label}}</td><td>{{form.body_part}}</td></tr>
+                        </Table>
+                    <br>
+                    {{form.submit()}}
+                </form>  <br>
+
+            <div class="back"><img src="/static/assets/img/back_arrow.jpg" class="img-fluid" alt="" onclick="history.back()" style="align:right"> <a href="javascript:history.back()">Powrót do poprzedniej strony</a></div>
 
         </div>
-    </section><!-- End Resume Section -->
+
+    </section>
+  <!-- End Resume Section -->
 </main><!-- End #main -->
 
 <!-- ======= Footer ======= -->

@@ -247,6 +247,15 @@ def pokaz_ex(sql):
         cwiczenia.append(cwiczenie)
     return cwiczenia
 
+def pokaz_se(sql):
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    print(myresult)
+    serie = []
+    for x in myresult:
+        seria = [x[0], x[1], x[2], x[3],x[4], x[5],x[6]]
+        serie.append(seria)
+    return serie
 def pokaz_pl(sql):
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
@@ -254,6 +263,16 @@ def pokaz_pl(sql):
     serie = []
     for x in myresult:
         seria = [x[2], x[3],x[4], x[5], x[6]]
+        serie.append(seria)
+    return serie
+
+def pokaz_seria_do_selecta(sql):
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    print(myresult)
+    serie = []
+    for x in myresult:
+        seria = [x[1], x[2],x[3], x[4], x[5], x[6], x[0]]
         serie.append(seria)
     return serie
 
@@ -287,6 +306,12 @@ def update_exercise(id, name, description, body_part, mydb):
     cursor.execute(sql)
     mydb.commit()
 
+def add_plan(series, date_from, date_to, day, order, mydb):
+    sql = "INSERT INTO `workout`.`plan` (`id_series`, `data_from`, `data_to`, `day`, `order`) VALUES ('" + str(series) + "','" + str(date_from) + "','" + str(date_to) + "','" + str(day) + "','" + str(order) + "')"
+    print(sql)
+    cursor = mydb.cursor()
+    cursor.execute(sql)
+    mydb.commit()
 
 def add_series(id_exercise, number_sets, number_repeats, weight, superseries, set, mydb):
     id = str(id_exercise)
@@ -488,11 +513,8 @@ def plan():
     body_part = wynik[2]
 
     print(wynik)
-    # body_part="plecy"
     print(body_part)
-    # print(len(wynik[1]))
-    # print("to jest wynik[0]:")
-    # print(len(wynik[0]))
+
 
     if (len(wynik) == 0):
         print("tu jestem")
@@ -506,6 +528,10 @@ def plan():
     print(pom)
     print(day)
     print(wynik)
+
+    if len(wynik[0])==0:
+        return render_template('nodata.html')
+
     return render_template('plan.html', day=day, wynik=wynik, pom=pom, body_part=body_part)
 
 @app.route("/plan_from", methods=["GET", "POST"])
@@ -515,8 +541,9 @@ def plan_from():
         date = form.startdate.data
         print(date)
         mycursor.execute("SELECT data_from FROM workout.plan where  data_from < '"+str(date)+"' and data_to > '"+str(date)+"' order by data_from desc limit 1")
+        print("SELECT data_from FROM workout.plan where  data_from < '"+str(date)+"' and data_to > '"+str(date)+"' order by data_from desc limit 1")
         myresult = mycursor.fetchall()
-
+        print(myresult)
     if len(myresult)==0:
         return render_template('nodata.html')
     else:
@@ -746,7 +773,6 @@ def addexercise():
 def editexercise():
     flag=0
     if (request.method == 'POST'):
-        print()
         forme=ChoiseForm()
         form = ExerciseForm()
        # id = request.args['id']
@@ -782,22 +808,38 @@ def addseries():
 @app.route("/editseries", methods=["GET", "POST"])
 @login_required
 def editseries():
-    sql = "select ide, name from exercise order by name"
-    wynik = pokaz_ex(sql)
-    forms = SeriesForm()
-    forms.exercise.choices = [(ex[0], ex[1]) for ex in wynik]
-    return render_template('editseries.html', form=forms)
+    flag = 0
+    if (request.method == 'POST') and (flag==0):
+        forms = SeriesForm()
+        ide =str(forms.exercise.data)
+        print("e" + ide)
+        sql = "select * from series  where id_exercise="+ide
+        wynik = pokaz_se(sql)
+        forms.exercise.choices = [(ex[0], ex[1]) for ex in wynik]
+    elif (request.method == 'POST') and (flag==2):
+        sql = "select ide, e.name, body_part, number_sets, number_repeats, weight, superseries from exercise e inner join series s on e.ide = s.id_exercise order by name"
+        wynik = pokaz_seria_do_selecta(sql)
+        print(wynik)
+        formp = PlanForm()
+        formp.series.choices = [(se[6], f"{se[0]}  [{se[1]}] - ile serii:{se[2]},  ilość powtórzeń: {se[3]}, obciążenie: {se[4]}") for se in wynik]
+    else:
+        sql = "select ide, name from exercise order by name"
+        wynik = pokaz_ex(sql)
+        forms = SeriesForm()
+        forms.exercise.choices = [(ex[0], ex[1]) for ex in wynik]
+        flag = 1
+    return render_template('editseries.html', form=forms, flag=flag)
 
 
 @app.route("/addplan", methods=["GET", "POST"])
 @login_required
 def addplan():
 
-    sql = "select * from exercise e inner join series s on e.ide = s.id_exercise order by name"
-    wynik = pokaz_pl(sql)
+    sql = "select ide, e.name, body_part, number_sets, number_repeats, weight, superseries from exercise e inner join series s on e.ide = s.id_exercise order by name"
+    wynik = pokaz_seria_do_selecta(sql)
     print(wynik)
     formp = PlanForm()
-    formp.series.choices = [(se[0],se[1]) for se in wynik]
+    formp.series.choices = [(se[6],  f"{se[0]}  [{se[1]}] - ile serii:{se[2]},  ilość powtórzeń: {se[3]}, obciążenie: {se[4]}") for se in wynik ]
     # sql="select * from exercise where body_part='" + part + "' order by name"
     return render_template('addplan.html', form=formp)
 
@@ -805,24 +847,24 @@ def addplan():
 @login_required
 def addpl():
     form = PlanForm()
-    forms = SeriesForm()
     if request.method == 'POST':
+        series = form.series.data
         date_from = form.time_from.data
         date_to = form.time_to.data
-        day = int(form.day.data)
+        day = form.day.data[0]
         order = int(form.order.data)
+        print(series)
+        print(date_from)
+        print(date_to)
+        print(day)
+        print(order)
         # number_repeats = str(forms.number_repeats.data)
         # weight = str(forms.weight.data)
         # superseries = str(forms.superseries.data)
         # set = str(forms.set.data)
-        # if (number_sets != "" and number_repeats != ""):
-        #     add_series(exercise, number_sets, number_repeats, weight, superseries, set, mydb)
-        # sql="select ids,name from exercise where name="+exercise
-        # wynik = pokaz_ex(sql)
-        # ide=int(wynik[0])
-        print(exercise)
-
-    return render_template('addplan.html', form=form)
+        if (series != "" and date_from != "" and date_to != ""  and day != "" ):
+             add_plan(series, date_from, date_to, day, order, mydb)
+    return render_template('dodane.html')
 
 @app.route("/editplan", methods=["GET", "POST"])
 @login_required

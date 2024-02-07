@@ -2,6 +2,7 @@
 <html lang="en">
 {% include "head.txt" %}
 <body>
+
 <!-- ======= Mobile nav toggle button ======= -->
 <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
 
@@ -16,22 +17,25 @@
     <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
         <div class="container">
-            <div class="section-title">
-    <h2>Dodawanie nowego planu</h2>
-</div>
+            <div class="section-title"><h2>Dodawanie nowego planu</h2></div>
 
-<Form method="POST", name="plan", action="/addpl">
+
+            <Form method="POST", name="plan", action="/addpl">
               {{ form.csrf_token }}
 
+                <Table WIDTH="70%">
+                    <tr><td>{{form.series.label}}</td><td>{{form.series}}</td></tr>
+                    <tr><td>{{form.time_from.label}}</td><td>{{form.time_from}}</td></tr>
+                    <tr><td>{{form.time_to.label}}</td><td>{{form.time_to}}</td></tr>
+                    <tr><td>{{form.day.label}}</td><td>{{form.day}}</td></tr>
+                    <tr><td>{{form.order.label}}</td><td>{{form.order}}</td></tr>
+                </Table>
+                </br>
+               {{form.submit()}}
 
-<Table WIDTH="70%">
-           <tr><td>{{form.series.label}}</td><td>{{form.series}}</td></tr>
-           <tr><td>{{form.time_from.label}}</td><td>{{form.time_from}}</td></tr>
-            <tr><td>{{form.time_to.label}}</td><td>{{form.time_to}}</td></tr>
-            <tr><td>{{form.order.label}}</td><td>{{form.order}}</td></tr>
-            <tr><td>{{form.submit()}}</td><td></td></tr>
-            </Table>
            </form>
+
+            <div class="back"><img src="/static/assets/img/back_arrow.jpg" class="img-fluid" alt="" onclick="history.back()" style="align:right"> <a href="javascript:history.back()">Powrót do poprzedniej strony</a></div>
 
         </div>
     </section><!-- End Resume Section -->
